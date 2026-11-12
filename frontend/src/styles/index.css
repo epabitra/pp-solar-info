@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * Design tokens (STYLE.md §2). Values are RGB channels so Tailwind can apply opacity.
+ * The theme follows the OS setting unless the visitor picks one (data-theme on <html>).
+ */
+@layer base {
+  :root {
+    color-scheme: light;
+    --brand: 20 70 160;
+    --brand-strong: 11 42 91;
+    --brand-soft: 232 239 251;
+    --sun: 255 199 44;
+    --sun-ink: 11 42 91;
+    --leaf: 31 122 58;
+    --leaf-soft: 230 244 235;
+    --danger: 180 35 24;
+    --canvas: 255 255 255;
+    --surface: 245 247 251;
+    --card: 255 255 255;
+    --ink: 15 23 42;
+    --ink-muted: 71 85 105;
+    --line: 226 232 240;
+    --hero: 11 42 91;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) {
+      color-scheme: dark;
+      --brand: 91 141 239;
+      --brand-strong: 157 187 245;
+      --brand-soft: 20 37 74;
+      --leaf: 76 194 122;
+      --leaf-soft: 18 46 32;
+      --danger: 249 112 102;
+      --canvas: 10 16 32;
+      --surface: 17 26 46;
+      --card: 22 33 58;
+      --ink: 230 236 245;
+      --ink-muted: 163 177 198;
+      --line: 38 50 74;
+      --hero: 6 12 26;
+    }
+  }
+
+  :root[data-theme='dark'] {
+    color-scheme: dark;
+    --brand: 91 141 239;
+    --brand-strong: 157 187 245;
+    --brand-soft: 20 37 74;
+    --leaf: 76 194 122;
+    --leaf-soft: 18 46 32;
+    --danger: 249 112 102;
+    --canvas: 10 16 32;
+    --surface: 17 26 46;
+    --card: 22 33 58;
+    --ink: 230 236 245;
+    --ink-muted: 163 177 198;
+    --line: 38 50 74;
+    --hero: 6 12 26;
+  }
+
+  /*
+   * No global `scroll-behavior: smooth`: it turns the router's scroll-to-top on
+   * every page change into a long animated scroll. Page changes jump instantly
+   * and the new page fades in instead (STYLE.md §5).
+   */
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  /*
+   * Keeps focused form fields and anchor targets clear of the sticky header.
+   * Set per element, not as html scroll-padding: that would make the browser
+   * treat links inside the sticky header as hidden and scroll the page when they get focus.
+   */
+  :where(input, select, textarea, section, [id]:target) {
+    scroll-margin-top: 8rem;
+  }
+
+  body {
+    @apply bg-canvas font-sans text-base leading-relaxed text-ink antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-ink;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brand ring-offset-2 ring-offset-canvas;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* White-on-brand buttons keep white text in dark mode, where --brand is lighter. */
+  .text-on-brand {
+    color: rgb(255 255 255);
+  }
+
+  :root[data-theme='dark'] .text-on-brand {
+    color: rgb(6 12 26);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme='light']) .text-on-brand {
+      color: rgb(6 12 26);
+    }
+  }
+}
