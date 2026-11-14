@@ -43,11 +43,15 @@ jobs:
       - name: Audit production dependencies
         run: npm audit --omit=dev --audit-level=moderate
 
-      # base_path is "/<repo>" for a project site and "" for a custom domain or <user>.github.io.
+      # The site is served from the root of its custom domain (ppsolarenergy.in), so the
+      # base path is fixed to "/". Do not derive it from configure-pages: a build made
+      # before the domain was attached got "/pp-solar-info/" and rendered a blank page.
+      # To serve it at <user>.github.io/<repo>/ instead, set the repository variable
+      # SITE_BASE_PATH to "/<repo>/".
       - name: Build
         run: npm run build
         env:
-          BASE_PATH: ${{ steps.pages.outputs.base_path }}/
+          BASE_PATH: ${{ vars.SITE_BASE_PATH || '/' }}
 
       - uses: actions/upload-pages-artifact@v3
         with:
