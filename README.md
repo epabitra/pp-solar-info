@@ -28,7 +28,18 @@ To test a GitHub Pages project-site build locally: `BASE_PATH=/<repo-name>/ npm 
 2. In the repository, open **Settings → Pages** and set **Source** to **GitHub Actions**.
 3. Every push to `main` runs [.github/workflows/deploy-pages.yml](.github/workflows/deploy-pages.yml): install, `npm audit`, build, deploy. You can also run it by hand from the **Actions** tab.
 
-The site is published at `https://<user>.github.io/<repo>/`. The base path is detected automatically, and it also works with a custom domain (set it under Settings → Pages). Deep links such as `/services/solar-epc` work through a generated `404.html`.
+The site is published at **https://ppsolarenergy.in** (custom domain set under Settings → Pages), so it is built with base path `/`. To publish at `https://<user>.github.io/<repo>/` instead, add a repository variable `SITE_BASE_PATH` = `/<repo>/`. Deep links such as `/services/solar-epc` work through a generated `404.html`.
+
+### Custom domain DNS (GoDaddy)
+| Type | Name | Value |
+|---|---|---|
+| A | @ | 185.199.108.153 |
+| A | @ | 185.199.109.153 |
+| A | @ | 185.199.110.153 |
+| A | @ | 185.199.111.153 |
+| CNAME | www | epabitra.github.io |
+
+There must be **no other** A records for `@`. GoDaddy's parking/forwarding addresses (`3.33.130.190`, `15.197.148.33`) cause a blank page for some visitors and block HTTPS. After DNS is correct, tick **Enforce HTTPS** under Settings → Pages once GitHub has issued the certificate.
 
 ## Images
 Client photos live in `assets-source/` (originals, renamed). To regenerate the web images after adding or changing a photo:
