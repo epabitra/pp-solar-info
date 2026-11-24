@@ -3,7 +3,6 @@ import { ProcessSection } from '@/components/sections/ProcessSection';
 import { ServiceCard } from '@/components/sections/ServiceCard';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Section, SectionHeading } from '@/components/ui/Layout';
-import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import { photos } from '@/lib/images';
 import { serviceGroups, servicesByGroup, type ServiceGroup } from '@/lib/services';
 
@@ -13,11 +12,6 @@ const groups: { id: ServiceGroup; tone: 'canvas' | 'surface' }[] = [
 ];
 
 export default function ServicesPage() {
-  useDocumentMeta(
-    'Our services',
-    'Solar EPC, on-grid, off-grid and hybrid solar installation, O&M, panel cleaning, electrical installation, LT/HT work, lighting, motor & pump repair and wiring.',
-  );
-
   return (
     <>
       <PageHeader

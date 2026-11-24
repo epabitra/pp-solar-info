@@ -3,7 +3,7 @@ import { CtaBanner } from '@/components/sections/CtaBanner';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Section } from '@/components/ui/Layout';
 import { ProjectGallery } from '@/features/projects/ProjectGallery';
-import { useDocumentMeta } from '@/hooks/useDocumentMeta';
+import { useHydrated } from '@/hooks/useHydrated';
 import { photos } from '@/lib/images';
 import { projectCategories, projects } from '@/lib/projects';
 
@@ -14,9 +14,10 @@ function parseFilter(value: string | null): FilterId {
 }
 
 export default function ProjectsPage() {
-  useDocumentMeta('Our work', 'Photos of rooftop solar plants, industrial installations, inverters and electrical panels by PP Solar Energy.');
   const [searchParams, setSearchParams] = useSearchParams();
-  const active = parseFilter(searchParams.get('category'));
+  // The pre-rendered page always shows "All work"; a ?category= link applies after hydration.
+  const hydrated = useHydrated();
+  const active = hydrated ? parseFilter(searchParams.get('category')) : 'all';
   const visible = active === 'all' ? projects : projects.filter((project) => project.category === active);
 
   const select = (id: FilterId) => {

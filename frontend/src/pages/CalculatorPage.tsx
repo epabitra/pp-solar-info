@@ -3,7 +3,6 @@ import { CtaBanner } from '@/components/sections/CtaBanner';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Section } from '@/components/ui/Layout';
 import { SavingsCalculator } from '@/features/calculator/SavingsCalculator';
-import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import { calculatorAssumptions } from '@/lib/calculator';
 import { formatDecimal, formatInteger } from '@/lib/format';
 import { photos } from '@/lib/images';
@@ -19,8 +18,6 @@ const assumptions = [
 ];
 
 export default function CalculatorPage() {
-  useDocumentMeta('Solar savings calculator', 'Estimate the rooftop solar system size, yearly generation and savings for your monthly electricity bill.');
-
   return (
     <>
       <PageHeader

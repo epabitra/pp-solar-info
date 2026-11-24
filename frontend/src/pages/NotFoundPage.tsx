@@ -1,10 +1,8 @@
 import { ButtonLink } from '@/components/ui/Button';
 import { Container } from '@/components/ui/Layout';
-import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import { routes } from '@/lib/siteLinks';
 
 export default function NotFoundPage() {
-  useDocumentMeta('Page not found', 'The page you are looking for does not exist.');
   return (
     <section className="bg-surface py-24">
       <Container className="max-w-xl text-center">

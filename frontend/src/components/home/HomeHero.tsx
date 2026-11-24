@@ -16,14 +16,15 @@ export function HomeHero() {
       <div aria-hidden="true" className="absolute inset-0 -z-10 bg-gradient-to-r from-hero via-hero/85 to-hero/40" />
       <Container className="py-20 sm:py-24 lg:py-32">
         <div className="max-w-2xl">
-          <p className="inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1.5 text-[13px] font-semibold uppercase tracking-[0.12em] text-sun">
-            Solar & electrical · {company.address.district}, {company.address.state}
+          <p className="inline-flex items-center gap-2 rounded-xl bg-white/10 px-3 py-1.5 text-[13px] font-semibold uppercase tracking-[0.12em] text-sun">
+            {company.positioning}
           </p>
           <h1 id="hero-title" className="mt-5 text-[32px] font-bold leading-[1.15] text-white sm:text-[44px] lg:text-[52px]">
-            Your trusted partner in <span className="text-sun">solar & electrical</span> solutions
+            <span className="text-sun">Solar panel installation</span> & electrical work in {company.address.district}, {company.address.state}
           </h1>
           <p className="mt-5 max-w-xl text-lg text-white/85">
-            We design, install and maintain on-grid, off-grid and hybrid solar systems, and take care of the electrical work for homes, businesses and industries.
+            {company.shortName} designs, installs and maintains on-grid, off-grid and hybrid solar systems, and takes care of the electrical work for homes,
+            businesses and industries from our base in {company.address.locality}.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <ButtonLink to={routes.contact} variant="accent" size="lg">

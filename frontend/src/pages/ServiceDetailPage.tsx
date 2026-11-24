@@ -6,7 +6,6 @@ import { ButtonAnchor, ButtonLink } from '@/components/ui/Button';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Section, SectionHeading } from '@/components/ui/Layout';
 import { Picture } from '@/components/ui/Picture';
-import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import { telUrl, whatsappUrl } from '@/lib/contactLinks';
 import { photos } from '@/lib/images';
 import { findService, services, type Service } from '@/lib/services';
@@ -42,8 +41,6 @@ function ContactCard({ service }: { service: Service }) {
 export default function ServiceDetailPage() {
   const { slug } = useParams();
   const service = findService(slug);
-
-  useDocumentMeta(service?.title ?? 'Service not found', service?.summary ?? 'The service you are looking for could not be found.');
 
   if (!service) return <NotFoundPage />;
 

@@ -95,12 +95,60 @@ async function buildLogo() {
   await sharp(emblem).resize({ width: 128 }).webp({ quality: 90 }).toFile(join(brandDir, 'logo-mark.webp'));
   await sharp(emblem).resize({ width: 64 }).png().toFile(join(publicDir, 'favicon.png'));
   await sharp(emblem).resize({ width: 180 }).flatten({ background: '#ffffff' }).png().toFile(join(publicDir, 'apple-touch-icon.png'));
-  console.log('logo-mark.webp, favicon.png, apple-touch-icon.png');
+  // Square icons for the web app manifest and the structured-data logo (stable URLs in /public).
+  for (const size of [192, 512]) {
+    const inner = Math.round(size * 0.9);
+    const resized = await sharp(emblem).resize({ width: inner, height: inner, fit: 'contain', background: '#ffffff' }).flatten({ background: '#ffffff' }).png().toBuffer();
+    await sharp({ create: { width: size, height: size, channels: 3, background: '#ffffff' } })
+      .composite([{ input: resized, gravity: 'center' }])
+      .png({ compressionLevel: 9, palette: true })
+      .toFile(join(publicDir, size === 512 ? 'logo-512.png' : 'icon-192.png'));
+  }
+  console.log('logo-mark.webp, favicon.png, apple-touch-icon.png, icon-192.png, logo-512.png');
+  return emblem;
+}
+
+/** 1200×630 Open Graph image shown when the site is shared on WhatsApp, Facebook, LinkedIn or X. */
+async function buildShareImage(emblem) {
+  const width = 1200;
+  const height = 630;
+  const photo = await sharp(join(sourceRoot, 'photos', 'rooftop-solar-array-blue-sky.jpeg'))
+    .resize({ width, height, fit: 'cover', position: 'right' })
+    .toBuffer();
+  const overlay = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="fade" x1="0" x2="1" y1="0" y2="0">
+        <stop offset="0" stop-color="#0B2A5B" stop-opacity="0.97"/>
+        <stop offset="0.6" stop-color="#0B2A5B" stop-opacity="0.85"/>
+        <stop offset="1" stop-color="#0B2A5B" stop-opacity="0.35"/>
+      </linearGradient>
+    </defs>
+    <rect width="${width}" height="${height}" fill="url(#fade)"/>
+    <rect x="72" y="560" width="96" height="8" rx="4" fill="#FFC72C"/>
+    <g font-family="Segoe UI, Arial, Helvetica, sans-serif" fill="#FFFFFF">
+      <text x="230" y="118" font-size="40" font-weight="700">PP Solar Energy</text>
+      <text x="230" y="156" font-size="20" font-weight="600" letter-spacing="3" fill="#FFFFFF" fill-opacity="0.8">ENGINEERING ENTERPRISES</text>
+      <text x="72" y="300" font-size="62" font-weight="700">Solar panel installation</text>
+      <text x="72" y="376" font-size="62" font-weight="700">&amp; electrical work</text>
+      <text x="72" y="452" font-size="40" font-weight="600" fill="#FFC72C">Ganjam, Odisha</text>
+      <text x="72" y="530" font-size="28" fill-opacity="0.9">+91 96923 52433  ·  ppsolarenergy.in</text>
+    </g>
+  </svg>`;
+  const logoMark = await sharp(emblem).resize({ width: 136 }).png().toBuffer();
+  await sharp(photo)
+    .composite([
+      { input: Buffer.from(overlay), top: 0, left: 0 },
+      { input: logoMark, top: 52, left: 72 },
+    ])
+    .jpeg({ quality: 84, mozjpeg: true })
+    .toFile(resolve(here, '../public/og-image.jpg'));
+  console.log('og-image.jpg 1200x630');
 }
 
 try {
   await buildPhotos();
-  await buildLogo();
+  const emblem = await buildLogo();
+  await buildShareImage(emblem);
 } catch (error) {
   console.error(`Image build failed: ${error.message}. Check that ../assets-source contains the original files.`);
   process.exitCode = 1;
