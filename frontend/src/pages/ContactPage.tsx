@@ -5,7 +5,6 @@ import { useSearchParams } from 'react-router';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Section } from '@/components/ui/Layout';
 import { EnquiryForm } from '@/features/contact/EnquiryForm';
-import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import { mailtoUrl, telUrl, whatsappUrl } from '@/lib/contactLinks';
 import { company, fullAddress, mapsUrl, whatsappGreeting } from '@/lib/siteConfig';
 
@@ -26,7 +25,6 @@ function ContactItem({ icon: Icon, title, children }: { icon: LucideIcon; title:
 const linkClass = 'rounded font-medium text-brand underline-offset-4 hover:underline';
 
 export default function ContactPage() {
-  useDocumentMeta('Contact us', `Call, WhatsApp or email ${company.legalName}, ${fullAddress}.`);
   const [searchParams] = useSearchParams();
   const requestedService = searchParams.get('service') ?? undefined;
 

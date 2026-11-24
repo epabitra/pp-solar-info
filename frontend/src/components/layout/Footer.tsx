@@ -82,7 +82,8 @@ export function Footer() {
       </Container>
       <div className="border-t border-white/10">
         <Container className="flex flex-col gap-2 py-5 text-xs text-white/60 sm:flex-row sm:items-center sm:justify-between">
-          <p>
+          {/* The year is baked in at build time; the browser may disagree right after New Year. */}
+          <p suppressHydrationWarning>
             © {year} {company.legalName}. All rights reserved.
           </p>
           <p>{company.slogan}</p>

@@ -1,5 +1,7 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Outlet, ScrollRestoration, useLocation } from 'react-router';
+import { applyHeadTags } from '@/seo/headTags';
+import { getPageSeo } from '@/seo/pageSeo';
 import { FloatingContact } from './FloatingContact';
 import { Footer } from './Footer';
 import { Header } from './Header';
@@ -14,13 +16,18 @@ export function SiteLayout() {
   const { pathname } = useLocation();
   const mainRef = useRef<HTMLElement>(null);
   const firstRender = useRef(true);
+  // The pre-rendered first page appears without a fade (it would delay Largest Contentful Paint).
+  const [animatePages, setAnimatePages] = useState(false);
 
-  // Tell screen-reader and keyboard users that the page changed by moving focus to the content.
   useEffect(() => {
+    // The pre-rendered <head> is already correct for the first page.
     if (firstRender.current) {
       firstRender.current = false;
       return;
     }
+    applyHeadTags(getPageSeo(pathname));
+    setAnimatePages(true);
+    // Tell screen-reader and keyboard users that the page changed by moving focus to the content.
     mainRef.current?.focus({ preventScroll: true });
   }, [pathname]);
 
@@ -35,7 +42,7 @@ export function SiteLayout() {
       <NavigationProgress />
       <Header />
       <main ref={mainRef} id="main" tabIndex={-1} className="focus:outline-none">
-        <div key={pathname} className="animate-page-enter">
+        <div key={pathname} className={animatePages ? 'animate-page-enter' : undefined}>
           <Outlet />
         </div>
       </main>

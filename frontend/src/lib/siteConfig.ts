@@ -35,6 +35,13 @@ export const company = {
 
 export const primaryPhone: PhoneNumber = company.phones[0];
 
+/** Production origin, used for canonical URLs, the sitemap, structured data and llms.txt. */
+export const siteUrl = 'https://ppsolarenergy.in';
+
+export function absoluteUrl(path: string): string {
+  return `${siteUrl}${path.startsWith('/') ? path : `/${path}`}`;
+}
+
 export const fullAddress = `${company.address.locality}, ${company.address.district}, ${company.address.state} - ${company.address.postalCode}`;
 
 export const mapsUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(

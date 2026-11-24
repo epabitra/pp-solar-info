@@ -37,10 +37,14 @@ function systemTheme(): ThemeChoice {
 }
 
 export function useTheme() {
-  const [stored, setStored] = useState<ThemeChoice | null>(() => readStoredTheme());
-  const [system, setSystem] = useState<ThemeChoice>(() => systemTheme());
+  // Start from the same values the pre-rendered HTML used ("light", nothing stored),
+  // then read the real preference after hydration to avoid a markup mismatch.
+  const [stored, setStored] = useState<ThemeChoice | null>(null);
+  const [system, setSystem] = useState<ThemeChoice>('light');
 
   useEffect(() => {
+    setStored(readStoredTheme());
+    setSystem(systemTheme());
     const media = window.matchMedia(darkQuery);
     const onChange = () => setSystem(media.matches ? 'dark' : 'light');
     media.addEventListener('change', onChange);

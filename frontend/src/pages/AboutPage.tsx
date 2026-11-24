@@ -5,10 +5,9 @@ import { WhyChooseUs } from '@/components/sections/WhyChooseUs';
 import { PageHeader } from '@/components/ui/PageHeader';
 import { Section, SectionHeading } from '@/components/ui/Layout';
 import { Picture } from '@/components/ui/Picture';
-import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import { photos } from '@/lib/images';
 import { serviceGroups, servicesByGroup } from '@/lib/services';
-import { company, fullAddress } from '@/lib/siteConfig';
+import { company } from '@/lib/siteConfig';
 
 const values = [
   { icon: ShieldCheck, title: 'Safety first', text: 'Proper earthing, protection devices and clean cable routing on every job.' },
@@ -17,8 +16,6 @@ const values = [
 ];
 
 export default function AboutPage() {
-  useDocumentMeta('About us', `${company.legalName} is a solar and electrical contractor in ${fullAddress}.`);
-
   return (
     <>
       <PageHeader
