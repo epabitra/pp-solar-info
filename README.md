@@ -60,8 +60,13 @@ To change a page's title or description, edit `src/seo/pageSeo.ts`. New services
 ### Off-site steps (need the client's accounts)
 Most of local ranking happens outside the website:
 1. **Google Business Profile** (business.google.com): create or claim "PP Solar Energy Engineering Enterprises" with the same name, address and phone as the site (category: *Solar energy contractor*, plus *Electrician*). Add photos, services and opening hours, and ask every happy customer for a review. This is the single biggest factor for "solar near me" searches and the map results.
-2. **Google Search Console** (search.google.com/search-console): add the domain `ppsolarenergy.in` (verify with a DNS TXT record in GoDaddy), submit `https://ppsolarenergy.in/sitemap.xml`, and use *URL inspection → Request indexing* for the home page.
-3. **Bing Webmaster Tools** (bing.com/webmasters): import from Search Console and submit the sitemap. Bing's index also feeds ChatGPT search and Microsoft Copilot.
+2. **Google Search Console** (search.google.com/search-console). Without this, a new site with no inbound links can take weeks to appear on Google:
+   1. *Add property* → **Domain** → enter `ppsolarenergy.in` → copy the `google-site-verification=…` TXT value.
+   2. GoDaddy → DNS → *Add record*: Type **TXT**, Name **@**, Value = the copied text → Save. Back in Search Console press **Verify** (DNS can take up to an hour).
+   3. *Sitemaps* → enter `sitemap.xml` → Submit.
+   4. *URL inspection* → `https://ppsolarenergy.in/` → **Request indexing**. Repeat for `/services`, `/about` and `/contact`.
+   5. Check *Pages* (indexing report) after a few days.
+3. **Bing Webmaster Tools** (bing.com/webmasters): sign in and *Import from Google Search Console*. Bing's index also feeds ChatGPT search, Microsoft Copilot and DuckDuckGo. Every deploy also notifies Bing automatically through IndexNow (`scripts/indexnow.mjs`, key in `public/indexnow-key.txt`).
 4. **Local listings** with the exact same name, address and phone: Justdial, IndiaMART, Sulekha, and the solar vendor directories the client qualifies for.
 5. **Content:** real project write-ups (location, kW, photos) and customer testimonials help most. Send them and they will be added to the site.
 

@@ -40,5 +40,6 @@ Decisions, open questions and known gaps for the PP Solar Energy website. Update
 
 ## Known gaps
 - No Content-Security-Policy or security headers: GitHub Pages cannot set response headers (RULES.md §5.2, §22). A `<meta http-equiv="Content-Security-Policy">` can cover CSP partly; `frame-ancestors` and HSTS need a different host or a CDN in front.
+- **Not on Google yet (checked 2026-11-27):** a search for the exact domain finds only the GitHub repository. Technical SEO is fine (HTTPS, www→apex redirect, indexable, canonical). The cause is discovery: new domain (parked until 2026-11-14), no inbound links, not submitted to Search Console. IndexNow runs after every deploy for Bing; Google needs Search Console (README "SEO").
 - Off-site SEO is not done yet: Google Business Profile, Google Search Console, Bing Webmaster Tools and local directory listings need the client's accounts (see README "SEO").
 - Dependency scan runs only in the deploy workflow (`npm audit --omit=dev`), not on pull requests yet.
